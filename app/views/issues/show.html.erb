@@ -1,13 +1,42 @@
 <h1><%= @issue.title %></h1>
+
+<h3>Content</h3>
 <p><%= @issue.content %></p>
 
-<table>
+<table class="table" >
 	<tr>
-		
+		<td>Comment</td>
+		<td>User</td>
 	</tr>
+	<tbody>
+	<% @comments.each do |comment| %>
+		<tr>
+			<td>
+				<%= comment.content  %>
+			</td>
+			<td>
+				<%= comment.user.email %>
+			</td>
+			<td>
+			<% if current_user == comment.user %>
+					<%= link_to "Delete", issue_comment_path(@issue, comment), method: :delete %>
+					<%= link_to "Edit", edit_issue_comment_path(@issue, comment) %>
+			<% end %>
+
+			</td>
+		</tr>
+	<% end %>
+	</tbody>
 
 </table>
 
-<%= link_to "Edit", edit_issue_path %>
-<%= link_to "Delete", issue_path(@issue), method: :delete %>
+	
+	<% if current_user == @issue.user %>
+		<%= form_for @comment, :url => issue_comments_path(@issue) do |f| %>
+		<%= f.text_field :content %>
+		<%= f.submit "Reply" %>
+		<% end %>
+		<%= link_to "Edit", edit_issue_path %>
+		<%= link_to "Delete", issue_path(@issue), method: :delete %>
+	<% end %>
 <%= link_to "Home", issues_path, class:"btn btn-default" %>

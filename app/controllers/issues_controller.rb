@@ -11,6 +11,8 @@ class IssuesController < ApplicationController
 	end
 
 	def show
+		@comment = Comment.new
+		@comments = @issue.comments.includes(:user)
 	end
 
 	def create
@@ -19,7 +21,7 @@ class IssuesController < ApplicationController
 		if @issue.save
 			redirect_to issue_path(@issue)
 		else
-			render "new"
+			render 'new'
 		end
 	end
 
