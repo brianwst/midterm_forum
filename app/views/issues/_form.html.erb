@@ -12,4 +12,8 @@
 			<%= f.text_area :content %>
 		</td>
 	</tr>
+	<tr>
+		<%= f.collection_select :category_id, Category.all, :id, :name, prompt: "Select a category" %>
+	</tr>
+
 </table>

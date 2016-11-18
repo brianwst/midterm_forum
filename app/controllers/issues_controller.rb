@@ -3,7 +3,7 @@ class IssuesController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
 	def index
-		@issues = Issue.all
+		@issues = Issue.all.includes(:user)
 	end
 
 	def new
@@ -48,7 +48,7 @@ class IssuesController < ApplicationController
 	end
 
 	def issue_params
-		params.require(:issue).permit(:title, :content)
+		params.require(:issue).permit(:title, :content, :category_id)
 	end
 end
 

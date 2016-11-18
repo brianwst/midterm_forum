@@ -4,7 +4,7 @@
 	<h1>Disaster news</h1>
 	<table class= "table">
 		<tr>
-			<td>Title</td>
+			<td>Title </td>
 			<td>Author</td>
 			<td>Comment</td>
 			<td>Last reply</td>
@@ -12,7 +12,7 @@
 		<tbody>
 			<% @issues.each do |issue| %>
 			<tr>
-				<td><%= link_to "#{issue.title}", issue_path(issue) %></td>
+				<td><%= link_to "#{issue.title}", issue_path(issue) %> <div class="btn btn-success"><%= issue.category.try(:name) %></div></td>
 				<td><%= issue.user.email %></td>
 				<td><%= issue.content %></td>
 				<td><%= time_ago_in_words(issue.created_at) %></td>
@@ -21,6 +21,7 @@
 		</tbody>
 
 	</table>
-
-	<%= link_to "New Post", new_issue_path %>
+	<% if current_user %>
+		<%= link_to "New Post", new_issue_path %>
+	<% end  %>
 </div>

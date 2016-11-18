@@ -3,6 +3,7 @@
 	<%= form_for @issue, url: issues_path do |f| %>
 		<%= render :partial => 'form', :locals => { :f => f } %>
 		<%= f.submit class: "btn btn-default" %>
+		
 	<%end %>
 
 	<%= link_to "Home", issues_path, class: "btn btn-default" %>

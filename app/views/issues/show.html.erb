@@ -1,7 +1,14 @@
-<h1><%= @issue.title %></h1>
+<h1><%= @issue.title %></h1> 
+<div class="btn btn-success"> <%= @issue.category.try(:name) %></div>
 
-<h3>Content</h3>
-<p><%= @issue.content %></p>
+<div class="wrap container" style="background-color: #ccc;">
+	<h3>Content</h3>
+	<p><%= @issue.content %></p>
+	<% if current_user == @issue.user %>
+			<%= link_to "Edit post", edit_issue_path, class: "btn btn-default"%>
+			<%= link_to "Delete post", issue_path(@issue), method: :delete, class: "btn btn-danger" %>
+	<% end %>
+</div>
 
 <table class="table" >
 	<tr>
@@ -31,12 +38,11 @@
 </table>
 
 	
-	<% if current_user == @issue.user %>
+	
+	<% if current_user %>
 		<%= form_for @comment, :url => issue_comments_path(@issue) do |f| %>
 		<%= f.text_field :content %>
 		<%= f.submit "Reply" %>
 		<% end %>
-		<%= link_to "Edit", edit_issue_path %>
-		<%= link_to "Delete", issue_path(@issue), method: :delete %>
-	<% end %>
+	<% end  %>
 <%= link_to "Home", issues_path, class:"btn btn-default" %>
