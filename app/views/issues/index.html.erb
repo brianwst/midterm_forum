@@ -19,7 +19,7 @@
 			<% @issues.each do |issue| %>
 			<tr>
 				<td><%= link_to "#{issue.title}", issue_path(issue) %></td>
-				<td><%=  %></td>
+				<td><%= issue.user.email %></td>
 				<td><%= issue.content %></td>
 				<td><%= time_ago_in_words(issue.created_at) %></td>
 			<% end %>

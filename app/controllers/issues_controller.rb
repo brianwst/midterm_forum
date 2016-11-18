@@ -1,20 +1,20 @@
 class IssuesController < ApplicationController
 	before_action :find_post, only: [:show, :edit, :destroy, :update ]
-	before_action :authenticate_user!, except: [:index, :show]
+	before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
 	def index
 		@issues = Issue.all
 	end
 
 	def new
-		@issue = Issue.new
+		@issue = current_user.issues.build
 	end
 
 	def show
 	end
 
 	def create
-		@issue = Issue.new(issue_params)
+		@issue = current_user.issues.build(issue_params)
 
 		if @issue.save
 			redirect_to issue_path(@issue)
