@@ -1,0 +1,13 @@
+<h1><%= @issue.title %></h1>
+<p><%= @issue.content %></p>
+
+<table>
+	<tr>
+		
+	</tr>
+
+</table>
+
+<%= link_to "Edit", edit_issue_path %>
+<%= link_to "Delete", issue_path(@issue), method: :delete %>
+<%= link_to "Home", issues_path, class:"btn btn-default" %>

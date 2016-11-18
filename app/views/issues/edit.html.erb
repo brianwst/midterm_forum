@@ -1,0 +1,6 @@
+<h1>Edit <%= @issue.title %></h1>
+
+<%= form_for @issue, url: issue_path(@issue), method: :patch do |f| %>
+	<%= render :partial => 'form', :locals => { :f => f }  %>
+	<%= f.submit class: "btn btn-default" %>
+<%end %>

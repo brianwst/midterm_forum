@@ -1,0 +1,32 @@
+
+<div class="container">
+  <% if current_user %>
+    <%= link_to('登出', destroy_user_session_path, :method => :delete) %> |
+    <%= link_to('修改密碼', edit_registration_path(:user)) %>
+  <% else %>
+    <%= link_to('註冊', new_registration_path(:user)) %> |
+    <%= link_to('登入', new_session_path(:user)) %>
+  <% end %>
+	<h1>Disaster news</h1>
+	<table class= "table">
+		<tr>
+			<td>Title</td>
+			<td>Author</td>
+			<td>Comment</td>
+			<td>Last reply</td>
+		</tr>
+		<tbody>
+			<% @issues.each do |issue| %>
+			<tr>
+				<td><%= link_to "#{issue.title}", issue_path(issue) %></td>
+				<td><%=  %></td>
+				<td><%= issue.content %></td>
+				<td><%= time_ago_in_words(issue.created_at) %></td>
+			<% end %>
+			</tr>
+		</tbody>
+
+	</table>
+
+	<%= link_to "New Post", new_issue_path %>
+</div>
