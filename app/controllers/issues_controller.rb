@@ -1,5 +1,6 @@
 class IssuesController < ApplicationController
-	before_action :find_post, only: [:show, :edit, :destroy, :update ]
+	before_action :find_post, only: :show
+	before_action :find_own_post , :only => [:edit, :destroy, :update]
 	before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
 	def index
@@ -47,6 +48,11 @@ class IssuesController < ApplicationController
 	private
 	def find_post
 		@issue = Issue.find(params[:id])
+	end
+
+	def find_own_post
+		#刪除修改缺乏後端驗證
+		@issue = current_user.issues.find(params[:id])
 	end
 
 	def issue_params

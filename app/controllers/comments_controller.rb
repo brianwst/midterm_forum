@@ -18,23 +18,37 @@ class CommentsController < ApplicationController
 
 	def edit
 		@comment = @issue.comments.find(params[:id])
+		# 缺少後端驗證
+		if @comment.user != current_user
+			flash[:alert] = "你只能修改自己的評論"
+			redirect_to issue_path(@issue)
+		end
 	end
 
 	def update
 		@comment = @issue.comments.find(params[:id])
-		if @comment.update(comment_params)
+		# 缺少後端驗證
+		if @comment.user != current_user
+			flash[:alert] = "你只能修改自己的評論"
 			redirect_to issue_path(@issue)
 		else
-			render "edit"
+			if @comment.update(comment_params)
+				redirect_to issue_path(@issue)
+			else
+				render "edit"
+			end
 		end
-
 	end
 
 	def destroy
 		@comment = @issue.comments.find(params[:id])
-		@comment.destroy
-		flash[:alert] = "event was deleted"
-
+		# 缺少後端驗證
+		if @comment.user != current_user
+			flash[:alert] = "你只能刪除自己的評論"
+		else
+			@comment.destroy
+			flash[:alert] = "event was deleted"
+		end
 		redirect_to issue_path(@issue)
 	end
 
