@@ -1,9 +1,11 @@
 class IssuesController < ApplicationController
-	before_action :find_post, only: [:show, :edit, :destroy, :update ]
+	before_action :find_post, only: :show
+	before_action :find_own_post , :only => [:edit, :destroy, :update]
 	before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
 	def index
-		@issues = Issue.all.includes(:user)
+		#never all!
+		@issues = Issue.page(params[:page]).includes(:user)
 	end
 
 	def new
@@ -12,13 +14,15 @@ class IssuesController < ApplicationController
 
 	def show
 		@comment = Comment.new
-		@comments = @issue.comments.includes(:user)
+		#never all!
+		@comments = @issue.comments.includes(:user).page(params[:page])
 	end
 
 	def create
 		@issue = current_user.issues.build(issue_params)
 
 		if @issue.save
+			flash[:notice] = "新增成功"
 			redirect_to issue_path(@issue)
 		else
 			render 'new'
@@ -30,6 +34,7 @@ class IssuesController < ApplicationController
 
 	def update
 		if @issue.update(issue_params)
+			flash[:notice] = "修改成功"
 			redirect_to issue_path(@issue)
 		else
 			render "edit"
@@ -37,14 +42,19 @@ class IssuesController < ApplicationController
 	end
 
 	def destroy
+		flash[:notice] = "刪除成功"
 		@issue.destroy
 		redirect_to issues_path
-
 	end
 
 	private
 	def find_post
 		@issue = Issue.find(params[:id])
+	end
+
+	def find_own_post
+		#刪除修改缺乏後端驗證
+		@issue = current_user.issues.find(params[:id])
 	end
 
 	def issue_params

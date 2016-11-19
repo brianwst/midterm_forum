@@ -21,6 +21,7 @@
 		</tbody>
 
 	</table>
+  <%= paginate @issues %>
 	<% if current_user %>
 		<%= link_to "New Post", new_issue_path %>
 	<% end  %>
