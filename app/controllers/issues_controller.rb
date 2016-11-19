@@ -3,7 +3,8 @@ class IssuesController < ApplicationController
 	before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
 
 	def index
-		@issues = Issue.all.includes(:user)
+		#never all!
+		@issues = Issue.page(params[:page]).includes(:user)
 	end
 
 	def new
@@ -12,7 +13,8 @@ class IssuesController < ApplicationController
 
 	def show
 		@comment = Comment.new
-		@comments = @issue.comments.includes(:user)
+		#never all!
+		@comments = @issue.comments.includes(:user).page(params[:page])
 	end
 
 	def create
