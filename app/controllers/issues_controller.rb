@@ -22,6 +22,7 @@ class IssuesController < ApplicationController
 		@issue = current_user.issues.build(issue_params)
 
 		if @issue.save
+			flash[:notice] = "新增成功"
 			redirect_to issue_path(@issue)
 		else
 			render 'new'
@@ -33,6 +34,7 @@ class IssuesController < ApplicationController
 
 	def update
 		if @issue.update(issue_params)
+			flash[:notice] = "修改成功"
 			redirect_to issue_path(@issue)
 		else
 			render "edit"
@@ -40,9 +42,9 @@ class IssuesController < ApplicationController
 	end
 
 	def destroy
+		flash[:notice] = "刪除成功"
 		@issue.destroy
 		redirect_to issues_path
-
 	end
 
 	private
